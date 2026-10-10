@@ -78,6 +78,22 @@ radial-gradient(ellipse at 50% 45%,#f2d9a1 0%,#cba46a 24%,#77502d 48%,#2a1a0e 76
 .map-shell iframe{display:block;width:100%;height:760px;border:0;background:#e7d2a7}
 .map-note{padding:11px 15px;color:#d9bd83;font-size:12px;border-top:1px solid #6e4b27}
 .footer{border-top:1px solid #80572d;padding:22px;text-align:center;color:#bfa06a;font-size:13px;background:#100904}
+/* Research status dialog: show honest status instead of empty/dead links */
+.research-dialog{position:fixed;inset:0;z-index:1000;display:none;align-items:center;justify-content:center;padding:18px;background:#080502c9;backdrop-filter:blur(4px)}
+.research-dialog.is-open{display:flex}
+.research-dialog-card{width:min(100%,560px);max-height:min(82vh,720px);overflow:auto;border:1px solid #c49a55;border-radius:14px;background:linear-gradient(145deg,#f1d9a6,#d7b273);color:#321b0a;box-shadow:0 22px 70px #000b}
+.research-dialog-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 19px;background:linear-gradient(135deg,#24160b,#4b2c15);color:#f4d79b;border-bottom:1px solid #b48a4a}
+.research-dialog-head h2{font-size:21px;margin:0}
+.research-dialog-close{border:1px solid #c69a55;border-radius:7px;background:#211308;color:#f7dfa7;font-size:23px;line-height:1;padding:5px 10px;cursor:pointer}
+.research-dialog-body{padding:20px}
+.research-status-pill{display:inline-block;margin-bottom:12px;padding:6px 10px;border-radius:20px;background:#f8e9c5;border:1px solid #a77835;color:#70400e;font-size:13px;font-weight:900}
+.research-dialog-body p{font-size:15px;line-height:1.75;margin:0 0 12px}
+.research-dialog-body ul{padding-left:22px;line-height:1.8;margin:8px 0 16px}
+.research-dialog-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.research-dialog-actions a{display:inline-flex;padding:10px 14px;border-radius:7px;background:#321d0c;color:#f7dda0;border:1px solid #8f632d;font-weight:800}
+.research-trigger{cursor:pointer}
+.research-trigger:focus-visible{outline:3px solid #f8d88d;outline-offset:3px}
+.timeline li[data-research]{cursor:pointer;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:4px}
 @media(max-width:1100px){.topbar{gap:12px;flex-wrap:wrap}.brand{min-width:220px}.nav{order:3;width:100%;justify-content:flex-start}.header-search{margin-left:auto}.quick-links{grid-template-columns:repeat(4,minmax(0,1fr))}.content{grid-template-columns:1fr 1fr}.content .panel:first-child{grid-column:span 1}.content .panel:last-child{grid-column:span 2}}
 @media(max-width:680px){.topbar{padding:10px 13px}.brand{min-width:0}.brand-title{font-size:18px}.brand-seal{width:43px;height:43px;font-size:21px}.nav{gap:12px}.nav a{font-size:12px}.nav-icon{font-size:16px}.header-search{width:100%;order:4}.hero-inner{grid-template-columns:1fr;padding:30px 20px 25px;gap:0}.hero{min-height:0}.hero-inner{min-height:0}.hero-copy{text-align:center}.hero-actions{justify-content:center}.map-art{min-height:220px}.hero-stamp{display:none}.quick-links{padding:12px;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.quick-card{min-height:100px}.content{padding:4px 12px 22px;grid-template-columns:1fr;gap:12px}.content .panel:first-child,.content .panel:last-child{grid-column:auto}.map-section{padding:0 12px;margin-bottom:24px}.section-title{align-items:start;flex-direction:column}.section-title h2{font-size:22px}.map-shell iframe{height:650px}.taluka-grid{grid-template-columns:repeat(2,1fr)}}
 </style>
@@ -121,19 +137,19 @@ radial-gradient(ellipse at 50% 45%,#f2d9a1 0%,#cba46a 24%,#77502d 48%,#2a1a0e 76
 </section>
 <section class="quick-links" id="heritage" aria-label="इतिहास विभाग">
  <a class="quick-card" href="#district-map"><div class="ico">🗺️</div><strong>जिल्हा नकाशा</strong><small>तालुके आणि गावांच्या सीमा</small></a>
- <a class="quick-card" href="#village-search"><div class="ico">🏘️</div><strong>गावे</strong><small>१,३१२ गावांचा अ‍ॅटलस</small></a>
- <a class="quick-card" href="atlas.html" target="_blank" rel="noopener"><div class="ico">🏰</div><strong>किल्ले</strong><small>ऐतिहासिक स्थळे शोधा</small></a>
- <a class="quick-card" href="atlas.html" target="_blank" rel="noopener"><div class="ico">🛕</div><strong>मंदिरे</strong><small>प्राचीन धार्मिक वारसा</small></a>
- <a class="quick-card" href="atlas.html" target="_blank" rel="noopener"><div class="ico">🪨</div><strong>शिलालेख</strong><small>लेख आणि पुराव्यांचा शोध</small></a>
- <a class="quick-card" href="#timeline"><div class="ico">👑</div><strong>राजवंश</strong><small>काळानुसार इतिहास</small></a>
- <a class="quick-card" href="#timeline"><div class="ico">⚔️</div><strong>ऐतिहासिक घटना</strong><small>घटना व कालखंड</small></a>
- <a class="quick-card" href="#sources"><div class="ico">📜</div><strong>संदर्भ स्रोत</strong><small>पुरावे आणि नोंदी</small></a>
+ <a class="quick-card" href="#village-search"><div class="ico">🏘️</div><strong>गावे</strong><small>१,३१२ गावांच्या सीमा व नोंदी</small></a>
+ <a class="quick-card research-trigger" href="#research-dialog" data-research="किल्ले" data-topic="forts"><div class="ico">🏰</div><strong>किल्ले</strong><small>नोंदी व पुरावे तपासण्याचे काम सुरू</small></a>
+ <a class="quick-card research-trigger" href="#research-dialog" data-research="मंदिरे" data-topic="temples"><div class="ico">🛕</div><strong>मंदिरे</strong><small>नोंदी व पुरावे तपासण्याचे काम सुरू</small></a>
+ <a class="quick-card research-trigger" href="#research-dialog" data-research="शिलालेख" data-topic="inscriptions"><div class="ico">🪨</div><strong>शिलालेख</strong><small>शिलालेखांचा शोध व पडताळणी सुरू</small></a>
+ <a class="quick-card research-trigger" href="#research-dialog" data-research="राजवंश" data-topic="dynasties"><div class="ico">👑</div><strong>राजवंश</strong><small>काळ व पुराव्यांची पडताळणी सुरू</small></a>
+ <a class="quick-card research-trigger" href="#research-dialog" data-research="ऐतिहासिक घटना" data-topic="events"><div class="ico">⚔️</div><strong>ऐतिहासिक घटना</strong><small>घटना व कालखंडांची पडताळणी सुरू</small></a>
+ <a class="quick-card research-trigger" href="#research-dialog" data-research="संदर्भ स्रोत" data-topic="sources"><div class="ico">📜</div><strong>संदर्भ स्रोत</strong><small>स्रोत संकलन व पडताळणी सुरू</small></a>
 </section>
 <section class="content">
  <article class="panel" id="timeline">
   <div class="panel-head">⌛ काळातून प्रवास</div>
   <div class="panel-body"><ul class="timeline">
-   <li>प्रागैतिहासिक काळ</li><li>सातवाहन</li><li>कदंब / चालुक्य</li><li>राष्ट्रकूट</li><li>होयसळ / यादव</li><li>विजयनगर</li><li>आदिलशाही / मराठा</li><li>ब्रिटिश काळ</li>
+   <li data-research="प्रागैतिहासिक काळ" data-topic="timeline" tabindex="0" role="button" aria-label="प्रागैतिहासिक काळ — संशोधन स्थिती पाहा">प्रागैतिहासिक काळ</li><li data-research="सातवाहन" data-topic="timeline" tabindex="0" role="button" aria-label="सातवाहन — संशोधन स्थिती पाहा">सातवाहन</li><li data-research="कदंब / चालुक्य" data-topic="timeline" tabindex="0" role="button" aria-label="कदंब / चालुक्य — संशोधन स्थिती पाहा">कदंब / चालुक्य</li><li data-research="राष्ट्रकूट" data-topic="timeline" tabindex="0" role="button" aria-label="राष्ट्रकूट — संशोधन स्थिती पाहा">राष्ट्रकूट</li><li data-research="होयसळ / यादव" data-topic="timeline" tabindex="0" role="button" aria-label="होयसळ / यादव — संशोधन स्थिती पाहा">होयसळ / यादव</li><li data-research="विजयनगर" data-topic="timeline" tabindex="0" role="button" aria-label="विजयनगर — संशोधन स्थिती पाहा">विजयनगर</li><li data-research="आदिलशाही / मराठा" data-topic="timeline" tabindex="0" role="button" aria-label="आदिलशाही / मराठा — संशोधन स्थिती पाहा">आदिलशाही / मराठा</li><li data-research="ब्रिटिश काळ" data-topic="timeline" tabindex="0" role="button" aria-label="ब्रिटिश काळ — संशोधन स्थिती पाहा">ब्रिटिश काळ</li>
   </ul><p style="font-size:11px;color:#73502c;margin:14px 0 0">कालखंड हे शोधासाठीचे मार्गदर्शक आहेत; प्रत्येक गावासाठी स्वतंत्र पुरावा तपासणे आवश्यक आहे.</p></div>
  </article>
  <article class="panel dark" id="village-search">
@@ -150,12 +166,12 @@ radial-gradient(ellipse at 50% 45%,#f2d9a1 0%,#cba46a 24%,#77502d 48%,#2a1a0e 76
  <article class="panel" id="sources">
   <div class="panel-head">✧ विशेष विभाग</div>
   <div class="panel-body"><div class="feature-grid">
-   <a class="feature" href="atlas.html" target="_blank" rel="noopener"><span>🏛️</span>पुरातत्त्वीय स्थळे</a>
-   <a class="feature" href="atlas.html" target="_blank" rel="noopener"><span>🪙</span>नाणी आणि मुद्रा</a>
-   <a class="feature" href="atlas.html" target="_blank" rel="noopener"><span>📜</span>जुनी नोंदी</a>
-   <a class="feature" href="atlas.html" target="_blank" rel="noopener"><span>🗺️</span>जुने नकाशे</a>
-   <a class="feature" href="atlas.html" target="_blank" rel="noopener"><span>📖</span>दस्तऐवज आणि नोंदी</a>
-   <a class="feature" href="atlas.html" target="_blank" rel="noopener"><span>📷</span>फोटो संग्रह</a>
+   <a class="feature research-trigger" href="#research-dialog" data-research="पुरातत्त्वीय स्थळे" data-topic="archaeology"><span>🏛️</span>पुरातत्त्वीय स्थळे</a>
+   <a class="feature research-trigger" href="#research-dialog" data-research="नाणी आणि मुद्रा" data-topic="coins"><span>🪙</span>नाणी आणि मुद्रा</a>
+   <a class="feature research-trigger" href="#research-dialog" data-research="जुनी नोंदी" data-topic="records"><span>📜</span>जुनी नोंदी</a>
+   <a class="feature research-trigger" href="#research-dialog" data-research="जुने नकाशे" data-topic="oldmaps"><span>🗺️</span>जुने नकाशे</a>
+   <a class="feature research-trigger" href="#research-dialog" data-research="दस्तऐवज आणि नोंदी" data-topic="documents"><span>📖</span>दस्तऐवज आणि नोंदी</a>
+   <a class="feature research-trigger" href="#research-dialog" data-research="फोटो संग्रह" data-topic="photos"><span>📷</span>फोटो संग्रह</a>
   </div></div>
  </article>
 </section>
@@ -164,14 +180,54 @@ radial-gradient(ellipse at 50% 45%,#f2d9a1 0%,#cba46a 24%,#77502d 48%,#2a1a0e 76
  <div class="map-shell"><iframe src="atlas.html" title="बेळगाव जिल्ह्याचा परस्परसंवादी इतिहास नकाशा" loading="lazy" allowfullscreen></iframe><div class="map-note">टीप: ज्या नोंदींसाठी इतिहास किंवा स्रोत पडताळणी प्रलंबित आहे, त्यांना निश्चित ऐतिहासिक तथ्य म्हणून समजू नये.</div></div>
 </section>
 </main>
+<div class="research-dialog" id="research-dialog" role="dialog" aria-modal="true" aria-labelledby="research-dialog-title" aria-hidden="true">
+ <div class="research-dialog-card" role="document">
+  <div class="research-dialog-head"><h2 id="research-dialog-title">संशोधन स्थिती</h2><button type="button" class="research-dialog-close" id="research-dialog-close" aria-label="बंद करा">×</button></div>
+  <div class="research-dialog-body"><span class="research-status-pill">⏳ संशोधन सुरू आहे</span><p id="research-dialog-summary">या विभागासाठी माहिती व ऐतिहासिक पुरावे गोळा करण्याचे काम सुरू आहे.</p><ul id="research-dialog-details"></ul><p><strong>महत्त्वाची नोंद:</strong> माहिती उपलब्ध नसणे म्हणजे त्या गावाला किंवा स्थळाला इतिहास नाही, असा निष्कर्ष नाही. पडताळलेला पुरावा मिळेपर्यंत अप्रमाणित माहिती निश्चित इतिहास म्हणून दाखवली जाणार नाही.</p><div class="research-dialog-actions"><a href="atlas.html" target="_blank" rel="noopener">परस्परसंवादी नकाशा उघडा ↗</a></div></div>
+ </div>
+</div>
 <footer class="footer">AdhiraVerse History Atlas · Belagavi · Explore · Discover · Learn · Preserve</footer>
 <script>
 function openAtlasWithQuery(value){
-  const target = "atlas.html";
-  window.open(target, "_blank", "noopener");
+  // Current atlas does not yet accept a query parameter; open the map honestly without implying a search was applied.
+  window.open("atlas.html", "_blank", "noopener");
 }
 document.getElementById("top-search").addEventListener("submit",function(e){e.preventDefault();openAtlasWithQuery(document.getElementById("top-query").value.trim());});
 document.getElementById("village-form").addEventListener("submit",function(e){e.preventDefault();openAtlasWithQuery(document.getElementById("village-query").value.trim());});
+const dialog=document.getElementById("research-dialog");
+const dialogTitle=document.getElementById("research-dialog-title");
+const dialogSummary=document.getElementById("research-dialog-summary");
+const dialogDetails=document.getElementById("research-dialog-details");
+const closeDialog=()=>{dialog.classList.remove("is-open");dialog.setAttribute("aria-hidden","true");document.body.style.overflow="";};
+const detailsByTopic={
+ forts:["किल्ल्यांची ओळख, स्थान, कालखंड आणि ऐतिहासिक संदर्भ विश्वसनीय स्रोतांमधून तपासणे बाकी आहे.","पडताळलेले तपशील मिळाल्यावर स्रोतासह नोंद जोडली जाईल."],
+ temples:["मंदिराचे नाव, स्थान, स्थापत्य/कालखंड आणि उपलब्ध नोंदींची पडताळणी सुरू आहे.","स्थानिक परंपरा आणि दस्तऐवजी पुरावे वेगवेगळे दर्शवले जातील."],
+ inscriptions:["शिलालेखाचे वाचन, दिनांक, भाषा, स्थान आणि प्रकाशित संदर्भ तपासणे आवश्यक आहे.","पडताळणीशिवाय शिलालेखाचा मजकूर किंवा निष्कर्ष निश्चित म्हणून दिला जाणार नाही."],
+ dynasties:["राजवंशाचा बेळगाव परिसराशी संबंध पुराव्यांनुसार तपासला जात आहे.","केवळ कालखंड जवळचा आहे म्हणून एखाद्या राजवंशाचे थेट राज्य मानले जाणार नाही."],
+ events:["घटना, तारीख, स्थळ आणि संबंधित व्यक्ती यांचे स्वतंत्र स्रोतांशी जुळवून पाहणे सुरू आहे.","पुरावा अपुरा असल्यास नोंद संशोधन-प्रलंबित म्हणूनच राहील."],
+ sources:["सरकारी नोंदी, शैक्षणिक लेख, प्रकाशित पुस्तके, पुरातत्त्वीय आणि अभिलेखीय स्रोत संकलित व तपासले जात आहेत.","प्रत्येक ऐतिहासिक दाव्यासाठी शक्य तिथे स्रोत व संदर्भ जोडले जातील."],
+ archaeology:["पुरातत्त्वीय स्थळांची ओळख आणि त्यासंबंधी अधिकृत/शैक्षणिक नोंदी तपासणे सुरू आहे."],
+ coins:["नाणी किंवा मुद्रांचे पुरावे विशिष्ट ठिकाणाशी जोडताना त्यांचा स्रोत आणि वितरणाचा संदर्भ तपासणे आवश्यक आहे."],
+ records:["जुन्या दस्तऐवजांची तारीख, मूळ स्रोत, वाचन आणि स्थानिक संदर्भ तपासले जात आहेत."],
+ oldmaps:["जुन्या नकाशांचे वर्ष, निर्माता, प्रमाण आणि भौगोलिक संदर्भ तपासणे आवश्यक आहे."],
+ documents:["दस्तऐवज उपलब्ध झाल्यावर त्यांचे शीर्षक, दिनांक, संग्रह/संस्था आणि संदर्भ नोंदवले जातील."],
+ photos:["फोटो संग्रहासाठी स्थळ/व्यक्तीची ओळख, अंदाजित किंवा ज्ञात तारीख आणि वापराची परवानगी तपासली जाईल."],
+ timeline:["हा कालखंड संशोधनासाठीचा विषय आहे; तो प्रत्येक गावावर किंवा संपूर्ण जिल्ह्यावर लागू होता, असा दावा येथे केलेला नाही.","बेळगावशी थेट संबंध दर्शवणारे स्रोत मिळेपर्यंत निष्कर्ष प्रलंबित राहील."]
+};
+function showResearchDialog(title,topic){
+ dialogTitle.textContent=title+" — संशोधन स्थिती";
+ dialogSummary.textContent="या विभागासाठी माहिती संकलन, स्रोत शोध आणि ऐतिहासिक पडताळणीचे काम सुरू आहे.";
+ const items=detailsByTopic[topic]||["या विषयावरील विश्वसनीय नोंदी व स्रोत शोधण्याचे काम सुरू आहे.","पुरावा मिळेपर्यंत अप्रमाणित माहिती ऐतिहासिक तथ्य म्हणून दाखवली जाणार नाही."];
+ dialogDetails.replaceChildren(...items.map(text=>{const li=document.createElement("li");li.textContent=text;return li;}));
+ dialog.classList.add("is-open");dialog.setAttribute("aria-hidden","false");document.body.style.overflow="hidden";document.getElementById("research-dialog-close").focus();
+}
+document.querySelectorAll(".research-trigger, [data-research][role='button']").forEach(el=>{
+ el.addEventListener("click",function(e){e.preventDefault();showResearchDialog(this.dataset.research||this.textContent.trim(),this.dataset.topic||"timeline");});
+ el.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();showResearchDialog(this.dataset.research||this.textContent.trim(),this.dataset.topic||"timeline");}});
+});
+document.getElementById("research-dialog-close").addEventListener("click",closeDialog);
+dialog.addEventListener("click",e=>{if(e.target===dialog)closeDialog();});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&dialog.classList.contains("is-open"))closeDialog();});
 </script>
 </body>
 </html>
